@@ -1,0 +1,258 @@
+/* styles.css */
+
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+#layout {
+    display: grid;
+    grid-template-areas:
+        "empty-top empty-top empty-top"
+        "position-5 center-table position-4"
+        "position-3 center-table position-2"
+        "position-1 position-1 position-1";
+    grid-gap: 20px;
+    justify-items: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Define grid areas for each position and center table */
+.empty-top {
+    grid-area: empty-top;
+}
+
+#position-5 {
+    grid-area: position-5;
+}
+
+#position-4 {
+    grid-area: position-4;
+}
+
+#position-3 {
+    grid-area: position-3;
+}
+
+#position-2 {
+    grid-area: position-2;
+}
+
+#position-1 {
+    grid-area: position-1;
+}
+
+.center-table {
+    grid-area: center-table;
+    background-color: #ffeeba;
+    border: 2px solid #f0ad4e;
+    border-radius: 8px;
+    width: 150px;
+    height: 250px; /* Increased height for vertical orientation */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 2px 12px rgba(0,0,0,0.2);
+}
+
+.center-label {
+    font-size: 20px;
+    font-weight: bold;
+    color: #856404;
+    text-align: center;
+}
+
+/* Position Card Styling */
+.position-card {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 150px;
+    padding: 15px;
+    box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.position-number {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.person-name {
+    font-size: 18px;
+    color: #555;
+    margin-top: 10px;
+}
+
+/* Log Styling */
+#log {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    height: 150px;
+    overflow-y: auto;
+    box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
+}
+
+#log h2 {
+    margin-top: 0;
+}
+
+.log-entry {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+/* Controls Styling */
+#controls {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#controls button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #28a745;
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+#controls button:hover {
+    background-color: #218838;
+}
+
+#controls button.stop {
+    background-color: #dc3545;
+}
+
+#controls button.stop:hover {
+    background-color: #c82333;
+}
+
+/* Responsive Design for Tablets and Mobile Devices */
+@media (max-width: 1024px) {
+    #layout {
+        grid-template-areas:
+            "empty-top empty-top empty-top"
+            "position-5 center-table position-4"
+            "position-3 center-table position-2"
+            "position-1 position-1 position-1";
+        grid-gap: 15px;
+    }
+
+    .center-table {
+        width: 200px;
+        height: 300px; /* Adjusted height for larger screens */
+    }
+
+    .center-label {
+        font-size: 18px;
+    }
+
+    .position-card {
+        width: 130px;
+        padding: 12px;
+    }
+
+    .position-number {
+        font-size: 20px;
+    }
+
+    .person-name {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    #layout {
+        grid-template-areas:
+            "empty-top empty-top empty-top"
+            "position-5 center-table position-4"
+            "position-3 center-table position-2"
+            "position-1 position-1 position-1";
+        grid-gap: 10px;
+    }
+
+    .center-table {
+        width: 180px;
+        height: 270px; /* Adjusted height for medium screens */
+    }
+
+    .center-label {
+        font-size: 16px;
+    }
+
+    .position-card {
+        width: 120px;
+        padding: 10px;
+    }
+
+    .position-number {
+        font-size: 18px;
+    }
+
+    .person-name {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    #layout {
+        grid-template-areas:
+            "empty-top empty-top empty-top"
+            "position-5 center-table position-4"
+            "position-3 center-table position-2"
+            "position-1 position-1 position-1";
+        grid-gap: 5px;
+    }
+
+    .center-table {
+        width: 150px;
+        height: 225px; /* Adjusted height for small screens */
+    }
+
+    .center-label {
+        font-size: 14px;
+    }
+
+    .position-card {
+        width: 100px;
+        padding: 8px;
+    }
+
+    .position-number {
+        font-size: 16px;
+    }
+
+    .person-name {
+        font-size: 12px;
+    }
+}
+.person-name {
+    font-size: 18px;
+    color: #555;
+    margin-top: 10px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.person-name.updated {
+    color: #28a745;
+    transform: scale(1.1);
+}

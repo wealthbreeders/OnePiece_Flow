@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Position Rotation Manager</title>
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Position Rotation Manager</h1>
+
+    <div id="layout">
+        <!-- Empty Top Area -->
+        <div class="grid-item empty-top"></div>
+
+        <!-- Left Positions -->
+        <div class="grid-item" id="position-5">
+            <div class="position-card">
+                <div class="position-number">Position 5</div>
+                <div class="person-name">Ethan</div>
+            </div>
+        </div>
+
+        <!-- Center Table -->
+        <div class="grid-item center-table">
+            <div class="center-label">Center Table</div>
+        </div>
+
+        <!-- Right Positions -->
+        <div class="grid-item" id="position-4">
+            <div class="position-card">
+                <div class="position-number">Position 4</div>
+                <div class="person-name">Diana</div>
+            </div>
+        </div>
+
+        <!-- Bottom Left Position -->
+        <div class="grid-item" id="position-3">
+            <div class="position-card">
+                <div class="position-number">Position 3</div>
+                <div class="person-name">Charlie</div>
+            </div>
+        </div>
+
+        <!-- Bottom Right Position -->
+        <div class="grid-item" id="position-2">
+            <div class="position-card">
+                <div class="position-number">Position 2</div>
+                <div class="person-name">Bob</div>
+            </div>
+        </div>
+
+        <!-- Bottom Position -->
+        <div class="grid-item" id="position-1">
+            <div class="position-card">
+                <div class="position-number">Position 1</div>
+                <div class="person-name">Alice</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="controls">
+        <button id="startBtn">Start Rotation</button>
+        <button id="stopBtn" class="stop">Stop Rotation</button>
+    </div>
+
+    <div id="log">
+        <h2>Rotation Log</h2>
+        <!-- Log entries will be dynamically inserted here -->
+    </div>
+
+    <!-- Link to external JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+</html>
