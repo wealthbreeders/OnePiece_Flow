@@ -16,6 +16,7 @@ let positionAssignments = {
 // References to DOM elements
 const logDiv = document.getElementById('log');
 const startBtn = document.getElementById('startBtn');
+const rotateNowBtn = document.getElementById('rotateNowBtn');
 const stopBtn = document.getElementById('stopBtn');
 
 // Scheduler variable
@@ -54,12 +55,15 @@ function logEvent(message) {
 /**
  * Function to rotate positions based on the defined swap sequence
  */
-function rotatePositions() {
+function rotatePositions(triggeredManually = false) {
     // Get the target position to swap with Position 1
     const targetPos = swapSequence[currentSwapIndex];
 
-    // Log the rotation action
-    logEvent(`Rotating Position 1 (${positionAssignments[1]}) with Position ${targetPos} (${positionAssignments[targetPos]})`);
+    if (triggeredManually) {
+        logEvent(`Manual Rotation: Swapping Position 1 (${positionAssignments[1]}) with Position ${targetPos} (${positionAssignments[targetPos]})`);
+    } else {
+        logEvent(`Scheduled Rotation: Swapping Position 1 (${positionAssignments[1]}) with Position ${targetPos} (${positionAssignments[targetPos]})`);
+    }
 
     // Perform the swap
     const temp = positionAssignments[1];
@@ -75,8 +79,10 @@ function rotatePositions() {
     // Update the swap index for the next rotation
     currentSwapIndex = (currentSwapIndex + 1) % swapSequence.length;
 
-    // Schedule the next rotation for the following day at 11:30 AM
-    scheduleNextRotation();
+    // Schedule the next rotation if this was a scheduled rotation
+    if (!triggeredManually) {
+        scheduleNextRotation();
+    }
 }
 
 /**
@@ -97,8 +103,12 @@ function getTimeUntilNext1130AM() {
         nextRotation.setDate(nextRotation.getDate() + 1);
     }
 
-   // return nextRotation - now;
-   return 10000;
+    // For demonstration purposes, return 10 seconds
+    // Comment out the line below for actual scheduling
+    return 10000; // 10,000 milliseconds = 10 seconds
+
+    // Uncomment the line below for actual scheduling
+    // return nextRotation - now;
 }
 
 /**
@@ -106,7 +116,8 @@ function getTimeUntilNext1130AM() {
  */
 function scheduleNextRotation() {
     const delay = getTimeUntilNext1130AM();
-    logEvent(`Next rotation scheduled in ${(delay / 1000 / 60).toFixed(2)} minutes.`);
+    const delayInMinutes = (delay / 1000 / 60).toFixed(2);
+    logEvent(`Next rotation scheduled in ${delayInMinutes} minutes.`);
 
     rotationTimeout = setTimeout(() => {
         rotatePositions();
@@ -140,11 +151,76 @@ function stopRotationScheduler() {
 }
 
 /**
+ * Function to handle manual rotation
+ */
+function handleManualRotation() {
+    rotatePositions(true); // Pass true to indicate manual trigger
+}
+
+/**
+ * Function to handle assignment editing
+ * @param {Event} event 
+ */
+function handleEditButtonClick(event) {
+    const editBtn = event.target;
+    const positionCard = editBtn.closest('.position-card');
+    const personNameDiv = positionCard.querySelector('.person-name');
+
+    // Check if already in edit mode
+    if (editBtn.textContent === 'Edit') {
+        // Switch to edit mode
+        const currentName = positionAssignments[getPositionNumber(positionCard)];
+        personNameDiv.innerHTML = `<input type="text" value="${currentName}" class="edit-input" />`;
+        editBtn.textContent = 'Save';
+    } else if (editBtn.textContent === 'Save') {
+        // Save the new name
+        const inputField = personNameDiv.querySelector('.edit-input');
+        const newName = inputField.value.trim();
+
+        if (newName === "") {
+            alert("Name cannot be empty.");
+            return;
+        }
+
+        const positionNumber = getPositionNumber(positionCard);
+        positionAssignments[positionNumber] = newName;
+
+        // Exit edit mode
+        personNameDiv.textContent = newName;
+        editBtn.textContent = 'Edit';
+
+        logEvent(`Position ${positionNumber} assignment updated to ${newName}.`);
+    }
+}
+
+/**
+ * Utility function to get the position number from a position card
+ * @param {HTMLElement} positionCard 
+ * @returns {number} Position number
+ */
+function getPositionNumber(positionCard) {
+    const positionNumberDiv = positionCard.querySelector('.position-number');
+    if (positionNumberDiv) {
+        const posText = positionNumberDiv.textContent.trim();
+        const posNumber = posText.split(' ')[1];
+        return parseInt(posNumber, 10);
+    }
+    return null;
+}
+
+/**
  * Initialize the application
  */
 function init() {
     displayAssignments();
     logEvent('Application initialized.');
+
+    // Add event listeners to all Edit buttons
+    const editButtons = document.querySelectorAll('.edit-btn');
+    editButtons.forEach(button => {
+        button.addEventListener('click', handleEditButtonClick);
+    });
+
     // Automatically schedule the first rotation on initialization
     // Comment out the line below if you want manual start via button
     // scheduleNextRotation();
@@ -159,6 +235,10 @@ stopBtn.addEventListener('click', () => {
     stopRotationScheduler();
 });
 
+rotateNowBtn.addEventListener('click', () => {
+    handleManualRotation();
+});
+
 // Initialize on page load
 window.onload = init;
 
@@ -166,4 +246,4 @@ window.onload = init;
  * Optional: Trigger rotation immediately on start
  * Uncomment the line below if you want to rotate as soon as the scheduler starts
  */
-// startBtn.addEventListener('click', rotatePositions);
+ //startBtn.addEventListener('click', rotatePositions);

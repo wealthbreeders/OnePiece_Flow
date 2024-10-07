@@ -256,3 +256,36 @@ h1, h2 {
     color: #28a745;
     transform: scale(1.1);
 }
+/* "Rotate Now" Button Styling */
+#controls .manual-rotate {
+    background-color: #17a2b8;
+}
+
+#controls .manual-rotate:hover {
+    background-color: #138496;
+}
+/* Edit Button Styling */
+.edit-btn {
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #ffc107;
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+.edit-btn:hover {
+    background-color: #e0a800;
+}
+/*Button Margins: Adjusted for better spacing on smaller screens.*/
+@media (max-width: 480px) {
+    /* ... existing styles ... */
+
+    #controls button {
+        margin: 5px;
+        width: 100px;
+    }
+}
