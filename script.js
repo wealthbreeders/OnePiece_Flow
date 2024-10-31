@@ -6,11 +6,11 @@ let currentSwapIndex = 0; // Tracks the current step in the rotation sequence
 
 // Initial position assignments
 let positionAssignments = {
-    1: "Alice",
-    2: "Bob",
-    3: "Charlie",
-    4: "Diana",
-    5: "Ethan"
+    1: "Briana",
+    2: "Gudlhum",
+    3: "Max",
+    4: "Yayha",
+    5: "Drew"
 };
 
 // References to DOM elements
