@@ -289,3 +289,19 @@ h1, h2 {
         width: 100px;
     }
 }
+.position-label {
+    display: block;
+    font-size: 14px;
+    color: #007bff; /* Light blue for visibility */
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.position-label.next {
+    color: #28a745; /* Green for NEXT */
+}
+
+.position-label.previous {
+    color: #dc3545; /* Red for PREVIOUS */
+}
+

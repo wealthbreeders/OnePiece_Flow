@@ -3,10 +3,11 @@
 // Define the rotation sequence: Position 1 will swap with positions in this order
 const swapSequence = [3, 5, 4, 2];
 let currentSwapIndex = 0; // Tracks the current step in the rotation sequence
+let previousPosition = null; // Tracks the last position that was in Position 1
 
 // Initial position assignments
 let positionAssignments = {
-    1: "Briana",
+    1: "Brianna",
     2: "Gudlhum",
     3: "Max",
     4: "Yayha",
@@ -26,17 +27,43 @@ let rotationTimeout = null; // Holds the reference to the setTimeout for rotatio
  * Function to display current position assignments
  * Since positions are fixed, we only need to update the person names
  */
+// Function to display current assignments and labels
 function displayAssignments() {
     Object.keys(positionAssignments).forEach(pos => {
         const positionCard = document.getElementById(`position-${pos}`);
         if (positionCard) {
             const personNameDiv = positionCard.querySelector('.person-name');
-            if (personNameDiv) {
-                personNameDiv.textContent = positionAssignments[pos];
+            const positionLabelDiv = positionCard.querySelector('.position-label');
+            
+            personNameDiv.textContent = positionAssignments[pos];
+            
+            // Clear previous labels
+            positionLabelDiv.textContent = "";
+            positionLabelDiv.classList.remove('next', 'previous');
+
+            // Set "PREVIOUS" label only if previousPosition is defined (rotation has started)
+            if (previousPosition !== null && parseInt(pos) === swapSequence[currentSwapIndex]) {
+                positionLabelDiv.textContent = "PREVIOUS";
+                positionLabelDiv.classList.add('previous');
+            }
+
+            // Initial condition: display "NEXT" only on the first position in swapSequence if rotation hasn't started
+            if (previousPosition === null && parseInt(pos) === swapSequence[0]) {
+                positionLabelDiv.textContent = "NEXT";
+                positionLabelDiv.classList.add('next');
+            }
+            // For subsequent rotations, calculate the next index in a circular way
+            else if (previousPosition !== null) {
+                let nextIndex = (currentSwapIndex + 1) % swapSequence.length;
+                if (parseInt(pos) === swapSequence[nextIndex]) {
+                    positionLabelDiv.textContent = "NEXT";
+                    positionLabelDiv.classList.add('next');
+                }
             }
         }
     });
 }
+
 
 /**
  * Function to log rotation events
@@ -55,9 +82,10 @@ function logEvent(message) {
 /**
  * Function to rotate positions based on the defined swap sequence
  */
+// Modify rotatePositions to update `previousPosition`
 function rotatePositions(triggeredManually = false) {
-    // Get the target position to swap with Position 1
     const targetPos = swapSequence[currentSwapIndex];
+    previousPosition = 1; // Set previousPosition as Position 1 before rotation
 
     if (triggeredManually) {
         logEvent(`Manual Rotation: Swapping Position 1 (${positionAssignments[1]}) with Position ${targetPos} (${positionAssignments[targetPos]})`);
@@ -70,7 +98,7 @@ function rotatePositions(triggeredManually = false) {
     positionAssignments[1] = positionAssignments[targetPos];
     positionAssignments[targetPos] = temp;
 
-    // Update the UI
+    // Update UI and labels
     displayAssignments();
 
     // Log the rotation completion
@@ -79,7 +107,7 @@ function rotatePositions(triggeredManually = false) {
     // Update the swap index for the next rotation
     currentSwapIndex = (currentSwapIndex + 1) % swapSequence.length;
 
-    // Schedule the next rotation if this was a scheduled rotation
+    // Schedule the next rotation if not manual
     if (!triggeredManually) {
         scheduleNextRotation();
     }
@@ -211,21 +239,15 @@ function getPositionNumber(positionCard) {
 /**
  * Initialize the application
  */
+// Initialize application and display the initial labels
 function init() {
     displayAssignments();
     logEvent('Application initialized.');
-
-    // Add event listeners to all Edit buttons
     const editButtons = document.querySelectorAll('.edit-btn');
     editButtons.forEach(button => {
         button.addEventListener('click', handleEditButtonClick);
     });
-
-    // Automatically schedule the first rotation on initialization
-    // Comment out the line below if you want manual start via button
-    // scheduleNextRotation();
 }
-
 // Event listeners for buttons
 startBtn.addEventListener('click', () => {
     startRotationScheduler();
@@ -239,6 +261,7 @@ rotateNowBtn.addEventListener('click', () => {
     handleManualRotation();
 });
 
+
 // Initialize on page load
 window.onload = init;
 
@@ -247,3 +270,4 @@ window.onload = init;
  * Uncomment the line below if you want to rotate as soon as the scheduler starts
  */
  //startBtn.addEventListener('click', rotatePositions);
+ 
